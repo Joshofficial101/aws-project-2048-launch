@@ -1,0 +1,32 @@
+{
+    "family": "game-2048-task",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+      "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512",
+    "executionRoleArn": "arn:aws:iam::135976031804:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "game-2048-container",
+        "image": "135976031804.dkr.ecr.us-east-1.amazonaws.com/game-2048:latest",
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 80,
+            "hostPort": 80,
+            "protocol": "tcp"
+          }
+        ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/game-2048",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "ecs"
+          }
+        }
+      }
+    ]
+  }

@@ -1,0 +1,87 @@
+{
+    "pipeline": {
+      "name": "game-2048-pipeline",
+      "roleArn": "arn:aws:iam::135976031804:role/codepipeline-2048-service-role",
+      "artifactStore": {
+        "type": "S3",
+        "location": "codepipeline-us-east-1-135976031804"
+      },
+      "stages": [
+        {
+          "name": "Source",
+          "actions": [
+            {
+              "name": "GitHub_Source",
+              "actionTypeId": {
+                "category": "Source",
+                "owner": "AWS",
+                "provider": "CodeStarSourceConnection",
+                "version": "1"
+              },
+              "configuration": {
+                "FullRepositoryId": "joshofficial101/aws-project-2048-launch",
+                "BranchName": "main",
+                "ConnectionArn": "arn:aws:codestar-connections:us-east-1:135976031804:connection/338139d2-57ee-4ec9-88a6-0a587992b013"
+              },
+              "outputArtifacts": [
+                {
+                  "name": "SourceArtifact"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Build",
+          "actions": [
+            {
+              "name": "CodeBuild",
+              "actionTypeId": {
+                "category": "Build",
+                "owner": "AWS",
+                "provider": "CodeBuild",
+                "version": "1"
+              },
+              "configuration": {
+                "ProjectName": "game-2048-build"
+              },
+              "inputArtifacts": [
+                {
+                  "name": "SourceArtifact"
+                }
+              ],
+              "outputArtifacts": [
+                {
+                  "name": "BuildArtifact"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Deploy",
+          "actions": [
+            {
+              "name": "ECS_Deploy",
+              "actionTypeId": {
+                "category": "Deploy",
+                "owner": "AWS",
+                "provider": "ECS",
+                "version": "1"
+              },
+              "configuration": {
+                "ClusterName": "game-2048-cluster",
+                "ServiceName": "game-2048-service",
+                "FileName": "imagedefinitions.json"
+              },
+              "inputArtifacts": [
+                {
+                  "name": "BuildArtifact"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
