@@ -11,7 +11,11 @@
           "ecs:DescribeTaskDefinition",
           "ecs:DescribeServices",
           "ecs:UpdateService",
-          "iam:PassRole"
+          "iam:PassRole",
+          "codestar-connections:UseConnection",
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:GetObjectVersion"
         ]
       }
     ]
