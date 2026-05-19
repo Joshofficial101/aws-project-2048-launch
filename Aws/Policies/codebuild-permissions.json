@@ -15,7 +15,8 @@
         "ecr:PutImage",
         "ecr:BatchCheckLayerAvailability",
         "s3:GetObject",
-        "s3:GetObjectVersion"
+        "s3:GetObjectVersion",
+        "s3:PutObject"
       ]
     }
   ]
